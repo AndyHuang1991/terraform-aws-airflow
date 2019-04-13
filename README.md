@@ -46,14 +46,15 @@ The Airflow service runs under systemd, so logs are available through journalctl
 - [x] Run airflow as systemd service
 - [x] Provide a way to pass a custom requirements.txt files on provision step
 - [ ] Provide a way to pass a custom packages.txt files on provision step
-- [x] RBAC
-- [ ] Support for [Google OAUTH ](https://incubator-airflow.readthedocs.io/en/latest/security.html#google-authentication)
-- [x] Flower
-- [ ] Secure Flower install 
 - [x] Provide a way to inject environment variables into airflow
+- [x] RBAC
+- [ ] Change Celery message broker to redis [see this issue for more info](https://github.com/PowerDataHub/terraform-aws-airflow/issues/6)
+- [ ] Flower
+- [ ] Secure Flower install 
+- [ ] Support for [Google OAUTH ](https://incubator-airflow.readthedocs.io/en/latest/security.html#google-authentication)
 - [ ] Split services into multiples files
 - [ ] Auto Scalling for workers
-- [ ] Use SPOT instances for workers
+- [ ] Use SPOT instances for workers with ASG
 - [ ] Maybe use the [AWS Fargate](https://aws.amazon.com/pt/fargate/) to reduce costs
 
 ---
