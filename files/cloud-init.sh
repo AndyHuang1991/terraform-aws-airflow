@@ -76,8 +76,9 @@ function setup_airflow() {
 #!/usr/bin/env bash
 if [ "\$AIRFLOW_ROLE" == "SCHEDULER" ]
 then exec airflow scheduler -n 10
-elif [ "\$AIRFLOW_ROLE" == "WEBSERVER" ]
-then airflow webserver -D && airflow flower
+elif [ "\$AIRFLOW_ROLE" == "WEBSERVER" ]; then
+	exec airflow webserver -D
+	exec airflow flower
 elif [ "\$AIRFLOW_ROLE" == "WORKER" ]
 then exec airflow worker
 else echo "AIRFLOW_ROLE value unknown" && exit 1
