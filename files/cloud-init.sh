@@ -32,7 +32,6 @@ function install_dependencies() {
 		python3-dev \
         apt-utils \
         build-essential \
-        curl \
         freetds-bin \
         locales \
         netcat \
