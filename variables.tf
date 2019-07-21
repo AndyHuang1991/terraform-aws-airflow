@@ -55,6 +55,17 @@ variable "vpc_id" {
   default     = ""
 }
 
+variable "instance_subnet_id" {
+  description = "subnet id used for 3 ec2 instance running airflow"
+  type        = "string"
+}
+
+variable "database_subnet_groups_subnet_ids"{
+  description = "The subnet ids that will used to create database subnet group"
+  type        = "list"
+  default     = []
+}
+
 variable "fernet_key" {
   description = "Key for encrypting data in the database - see Airflow docs."
   type        = "string"
@@ -231,9 +242,6 @@ data "aws_vpc" "default" {
   id      = "${var.vpc_id}"
 }
 
-data "aws_subnet_ids" "selected" {
-  vpc_id = "${data.aws_vpc.default.id}"
-}
 
 data "aws_security_group" "default" {
   vpc_id = "${data.aws_vpc.default.id}"

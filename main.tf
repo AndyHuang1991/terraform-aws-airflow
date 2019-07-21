@@ -164,7 +164,7 @@ resource "aws_instance" "airflow_webserver" {
   ami = "${var.ami}"
   key_name = "${aws_key_pair.auth.id}"
   vpc_security_group_ids = ["${module.sg_airflow.this_security_group_id}"]
-  subnet_id = "${element(data.aws_subnet_ids.selected.ids, 0)}"
+  subnet_id = "${var.instance_subnet_id}"
   iam_instance_profile = "${module.ami_instance_profile.instance_profile_name}"
 
   associate_public_ip_address = true
@@ -253,7 +253,7 @@ resource "aws_instance" "airflow_scheduler" {
   ami = "${var.ami}"
   key_name = "${aws_key_pair.auth.id}"
   vpc_security_group_ids = ["${module.sg_airflow.this_security_group_id}"]
-  subnet_id = "${element(data.aws_subnet_ids.selected.ids, 0)}"
+  subnet_id = "${var.instance_subnet_id}"
   iam_instance_profile = "${module.ami_instance_profile.instance_profile_name}"
 
   associate_public_ip_address = true
@@ -342,7 +342,7 @@ resource "aws_instance" "airflow_worker" {
   ami = "${var.ami}"
   key_name = "${aws_key_pair.auth.id}"
   vpc_security_group_ids = ["${module.sg_airflow.this_security_group_id}"]
-  subnet_id = "${element(data.aws_subnet_ids.selected.ids, 0)}"
+  subnet_id = "${var.instance_subnet_id}"
   iam_instance_profile = "${module.ami_instance_profile.instance_profile_name}"
 
   associate_public_ip_address = true
@@ -454,6 +454,12 @@ module "sg_database" {
   tags = "${module.airflow_labels.tags}"
 }
 
+resource "aws_db_subnet_group" "this" {
+  name       = "${var.db_dbname}-sg-group"
+  subnet_ids = ["${var.database_subnet_groups_subnet_ids}"]
+}
+
+
 resource "aws_db_instance" "airflow_database" {
   identifier = "${module.airflow_labels.id}-db"
   allocated_storage = "${var.db_allocated_storage}"
@@ -471,4 +477,5 @@ resource "aws_db_instance" "airflow_database" {
   skip_final_snapshot = true
   vpc_security_group_ids = ["${module.sg_database.this_security_group_id}"]
   port = "5432"
+  db_subnet_group_name = "${aws_db_subnet_group.this.name}"
 }
